@@ -22,54 +22,56 @@
         <p class="start-subtitle">Das ultimative Redaktions-Roguelike</p>
 
         <div class="meta-coins-display">🪙 <span id="metaCoinsDisplay">0</span></div>
-        <button id="shopBtn" class="shop-button">🛒 Shop</button>
 
         <div class="character-select">
-            <div class="character-card selected" data-character="petra">
-                <div class="character-avatar">👩‍💼</div>
-                <div class="character-name">Petra Schmitz</div>
-                <div class="character-weapon">🔫 Faktenschleuder</div>
-                <div class="character-stats">❤️ 100 | ⚡ Ausbalanciert</div>
-            </div>
-            <div class="character-card" data-character="heiko">
-                <div class="character-avatar">🎮</div>
+            <div class="character-card selected" data-character="heiko">
+                <div class="character-avatar">
+                    <img src="assets/sprites/char_heiko.png" alt="Heiko" class="char-sprite">
+                </div>
                 <div class="character-name">Heiko Klinge</div>
-                <div class="character-weapon">⚡ Wertungsblitz</div>
-                <div class="character-stats">❤️ 80 | ⚡ Schnell + Stark</div>
+                <div class="character-weapon">✏️ Rotstift</div>
+                <div class="character-stats">❤️ 90 | Chefredakteur</div>
+            </div>
+            <div class="character-card" data-character="petra">
+                <div class="character-avatar">
+                    <img src="assets/sprites/char_petra.png" alt="Petra" class="char-sprite">
+                </div>
+                <div class="character-name">Petra Schmitz</div>
+                <div class="character-weapon">🗞️ Druckerpresse</div>
+                <div class="character-stats">❤️ 100 | Print-Chefin</div>
             </div>
             <div class="character-card" data-character="michael">
-                <div class="character-avatar">📝</div>
+                <div class="character-avatar">
+                    <img src="assets/sprites/char_michael.png" alt="Michael" class="char-sprite">
+                </div>
                 <div class="character-name">Michael Graf</div>
-                <div class="character-weapon">💥 News Nova</div>
-                <div class="character-stats">❤️ 120 | ⚡ Tank</div>
+                <div class="character-weapon">🎙️ Podcast-Welle</div>
+                <div class="character-stats">❤️ 120 | Podcast-Chef</div>
             </div>
-        </div>
-
-        <p class="section-title">🔫 Starter-Waffe wählen:</p>
-        <div class="weapon-select">
-            <div class="weapon-select-card selected" data-weapon="faktenschleuder">
-                <div class="weapon-select-icon">📰</div>
-                <div class="weapon-select-name">Faktenschleuder</div>
+            <div class="character-card" data-character="dimi">
+                <div class="character-avatar">
+                    <img src="assets/sprites/char_dimi.png" alt="Dimi" class="char-sprite">
+                </div>
+                <div class="character-name">Dimi Halley</div>
+                <div class="character-weapon">⚡ Deadline-Laser</div>
+                <div class="character-stats">❤️ 85 | Redaktionsleiter</div>
             </div>
-            <div class="weapon-select-card" data-weapon="wertungsblitz">
-                <div class="weapon-select-icon">⚡</div>
-                <div class="weapon-select-name">Wertungsblitz</div>
-            </div>
-            <div class="weapon-select-card" data-weapon="kettenblitz">
-                <div class="weapon-select-icon">⚡</div>
-                <div class="weapon-select-name">Kettenblitz</div>
-            </div>
-            <div class="weapon-select-card" data-weapon="schrotflinte">
-                <div class="weapon-select-icon">💨</div>
-                <div class="weapon-select-name">Schrotflinte</div>
-            </div>
-            <div class="weapon-select-card" data-weapon="heiliges_wasser">
-                <div class="weapon-select-icon">💧</div>
-                <div class="weapon-select-name">Heiliges Wasser</div>
+            <div class="character-card" data-character="mary">
+                <div class="character-avatar">
+                    <img src="assets/sprites/char_mary.png" alt="Mary" class="char-sprite">
+                </div>
+                <div class="character-name">Mary Marx</div>
+                <div class="character-weapon">🔨 Ban-Hammer</div>
+                <div class="character-stats">❤️ 95 | Community-Chefin</div>
             </div>
         </div>
 
         <button id="startBtn">🎮 Redaktion starten!</button>
+
+        <div class="menu-buttons">
+            <button id="shopBtn" class="shop-button">🛒 Shop</button>
+            <button id="weaponsBtn" class="shop-button">⚔️ Waffenkammer</button>
+        </div>
 
         <div class="controls-hint">
             Steuerung: <span>WASD</span> oder <span>Pfeiltasten</span> zum Bewegen |
@@ -87,6 +89,18 @@
                 <!-- Filled dynamically -->
             </div>
             <button onclick="closeShop()" class="shop-close-btn">Schließen</button>
+        </div>
+    </div>
+
+    <!-- Weapons Info Modal -->
+    <div id="weaponsModal" class="modal-overlay">
+        <div class="weapons-content">
+            <h2 class="shop-title">⚔️ Waffenkammer</h2>
+            <p class="weapons-subtitle">Alle verfügbaren Waffen</p>
+            <div class="weapons-grid" id="weaponsGrid">
+                <!-- Filled dynamically -->
+            </div>
+            <button onclick="closeWeapons()" class="shop-close-btn">Schließen</button>
         </div>
     </div>
 
@@ -143,9 +157,39 @@
         </div>
     </div>
 
-    <!-- Pause Overlay -->
-    <div id="pauseOverlay">
-        <div class="pause-text">⏸️ PAUSIERT</div>
+    <!-- Options Modal (Pause Menu) -->
+    <div id="optionsModal" class="modal hidden">
+        <h2>🛠️ OPTIONEN / PAUSE</h2>
+        <div class="options-container">
+            <div class="option-row">
+                <span>🔊 Soundeffekte</span>
+                <button id="toggleSound" class="toggle-btn active">AN</button>
+            </div>
+            <div class="option-row">
+                <span>🎵 Musik</span>
+                <button id="toggleMusic" class="toggle-btn active">AN</button>
+            </div>
+            <div class="option-row">
+                <span>📳 Screen Shake</span>
+                <button id="toggleShake" class="toggle-btn active">AN</button>
+            </div>
+            <div class="option-row">
+                <span>✨ Partikel</span>
+                <button id="toggleParticles" class="toggle-btn active">AN</button>
+            </div>
+            <div class="option-row">
+                <span>🔆 Bloom/Glow</span>
+                <button id="toggleBloom" class="toggle-btn active">AN</button>
+            </div>
+            <div class="option-row">
+                <span>💯 Schadenszahlen</span>
+                <button id="toggleDamageNumbers" class="toggle-btn active">AN</button>
+            </div>
+        </div>
+        <div class="options-actions">
+            <button id="resumeBtn" class="action-btn">WEITER</button>
+            <button id="quitRunBtn" class="action-btn danger">RUNDE BEENDEN</button>
+        </div>
     </div>
 
     <!-- Game Over Screen -->
@@ -179,6 +223,15 @@
         <button id="restartBtn">🔄 Neue Ausgabe starten!</button>
     </div>
 
+    <!-- Achievement Notification -->
+    <div id="achievementNotification" class="achievement-popup">
+        <div class="achievement-icon"></div>
+        <div class="achievement-text">
+            <div class="achievement-title">Achievement!</div>
+            <div class="achievement-name"></div>
+        </div>
+    </div>
+
     <!-- Mobile Controls (placeholder for future) -->
     <div id="mobileControls">
         <div class="joystick-container">
@@ -186,7 +239,9 @@
         </div>
     </div>
 
-    <!-- Game Script -->
+    <!-- Game Scripts - Order matters! -->
+    <script src="js/config.js"></script>
+    <script src="js/audio.js"></script>
     <script src="js/game.js"></script>
 </body>
 

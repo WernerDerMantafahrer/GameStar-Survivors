@@ -132,13 +132,46 @@ body {
     width: 100px;
     height: 100px;
     margin: 0 auto 15px;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 50px;
-    background: linear-gradient(135deg, var(--gs-blue), var(--gs-blue-dark));
-    border: 3px solid var(--gs-gold);
+    overflow: hidden;
+}
+
+.char-sprite {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    transition: transform 0.3s ease;
+}
+
+.character-card:hover .char-sprite {
+    transform: scale(1.1);
+}
+
+.character-card.selected .char-sprite {
+    animation: wobble 1s ease-in-out infinite;
+}
+
+@keyframes wobble {
+
+    0%,
+    100% {
+        transform: rotate(-3deg) scale(1.05);
+    }
+
+    25% {
+        transform: rotate(2deg) scale(1.08);
+    }
+
+    50% {
+        transform: rotate(-2deg) scale(1.05);
+    }
+
+    75% {
+        transform: rotate(3deg) scale(1.08);
+    }
 }
 
 .character-name {
@@ -527,6 +560,17 @@ body {
     line-height: 1.4;
 }
 
+.weapon-level {
+    font-size: 13px;
+    color: var(--gs-cyan);
+    font-weight: bold;
+    background: rgba(0, 200, 255, 0.15);
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin: 8px 0;
+    display: inline-block;
+}
+
 .upgrade-rarity {
     font-size: 11px;
     text-transform: uppercase;
@@ -764,23 +808,25 @@ body {
 }
 
 .shop-button {
-    position: absolute;
-    top: 20px;
-    right: 120px;
-    padding: 10px 20px;
-    background: var(--bg-panel);
+    padding: 12px 25px;
+    background: linear-gradient(135deg, var(--bg-panel), rgba(0, 93, 158, 0.3));
     border: 2px solid var(--gs-gold);
     border-radius: 8px;
     color: var(--gs-gold);
     font-family: 'Orbitron', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .shop-button:hover {
     background: var(--gs-gold);
     color: var(--bg-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
 }
 
 /* ============================================
@@ -974,4 +1020,330 @@ body {
     font-size: 16px;
     color: var(--text-secondary);
     margin-bottom: 30px;
+}
+
+/* ============================================
+   Achievement Popup
+   ============================================ */
+.achievement-popup {
+    position: fixed;
+    top: 20px;
+    right: -400px;
+    width: 320px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(10, 10, 20, 0.95), rgba(30, 30, 50, 0.95));
+    border: 3px solid var(--gs-gold);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 200;
+    transition: right 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+.achievement-popup.show {
+    right: 20px;
+}
+
+.achievement-icon {
+    font-size: 48px;
+    animation: achievementBounce 0.5s ease-out;
+}
+
+@keyframes achievementBounce {
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.achievement-text {
+    flex: 1;
+}
+
+.achievement-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: var(--gs-gold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+.achievement-name {
+    font-size: 18px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Sound Toggle Button */
+.sound-toggle {
+    display: none;
+    /* Hidden in favor of options menu */
+}
+
+/* --- Options Modal --- */
+#optionsModal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+#optionsModal.hidden {
+    display: none;
+}
+
+#optionsModal h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 36px;
+    color: var(--gs-cyan);
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px var(--gs-blue);
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.option-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.toggle-btn {
+    padding: 5px 15px;
+    background: #FF0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    min-width: 60px;
+    font-weight: bold;
+}
+
+.toggle-btn.active {
+    background: #00CC00;
+}
+
+.options-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    background: var(--gs-blue);
+    color: white;
+    border: 2px solid var(--gs-blue-dark);
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    flex: 1;
+}
+
+.action-btn:hover {
+    background: var(--gs-blue-dark);
+}
+
+.action-btn.danger {
+    background: #cc0000;
+    border-color: #990000;
+}
+
+.action-btn.danger:hover {
+    background: #ff0000;
+}
+
+.sound-toggle:hover {
+    border-color: var(--gs-cyan);
+}
+
+.sound-toggle.muted {
+    opacity: 0.5;
+}
+
+/* ============================================
+   Menu Buttons
+   ============================================ */
+.menu-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* ============================================
+   Weapons Modal
+   ============================================ */
+.weapons-content {
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg-panel));
+    border: 3px solid var(--gs-blue);
+    border-radius: 20px;
+    padding: 30px 40px;
+    width: 90vw;
+    max-width: 1100px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.weapons-subtitle {
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.weapons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+@media (max-width: 900px) {
+    .weapons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .weapons-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.weapon-card {
+    background: rgba(0, 93, 158, 0.2);
+    border: 2px solid var(--gs-blue);
+    border-radius: 12px;
+    padding: 15px;
+    transition: all 0.3s ease;
+}
+
+.weapon-card:hover {
+    border-color: var(--gs-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+}
+
+.weapon-card.starter {
+    border-color: var(--gs-cyan);
+    background: rgba(0, 200, 255, 0.1);
+}
+
+.weapon-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.weapon-emoji {
+    font-size: 32px;
+}
+
+.weapon-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    color: var(--gs-gold);
+}
+
+.weapon-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+}
+
+.weapon-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.weapon-stat {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--gs-cyan);
+}
+
+/* ============================================
+   Random Drops
+   ============================================ */
+.drop-notification {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(30, 30, 50, 0.9));
+    border: 2px solid var(--gs-gold);
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 150;
+    animation: dropPopup 0.3s ease-out;
+}
+
+@keyframes dropPopup {
+    from {
+        transform: translateX(-50%) translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+.drop-emoji {
+    font-size: 24px;
+}
+
+.drop-text {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+/* ============================================
+   Shop Card Improvements
+   ============================================ */
+.shop-card .shop-description {
+    font-size: 10px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+    min-height: 24px;
 }
